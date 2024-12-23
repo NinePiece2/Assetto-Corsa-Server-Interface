@@ -51,8 +51,8 @@ jobs:
           file: ./UI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/assetto-corsa-server-interface:ui
-          secrets: |
-            id=SYNCFUSION_LICENSE,src=${{ secrets.SyncfusionLicense }}
+          build-args: |
+            SYNCFUSION_LICENSE=${{ secrets.SyncfusionLicense }}
 
   Deploy:
     runs-on: self-hosted
