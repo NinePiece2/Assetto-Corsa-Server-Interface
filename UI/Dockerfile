@@ -13,15 +13,13 @@ RUN npm install
 # Copy the rest of the application code into the container
 COPY . .
 
+RUN --mount=type=secret,id=SYNCFUSION_LICENSE \
+    npx syncfusion-license activate $(cat /run/secrets/SYNCFUSION_LICENSE)
+
 # Build the NextJS application
 RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Copy the startup script into the container
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-
-# Use the script as the container's entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["npm", "start"]
