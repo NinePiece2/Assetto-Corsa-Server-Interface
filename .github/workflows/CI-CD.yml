@@ -24,7 +24,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./API
+          context: ./API/Assetto-Corsa-Server-Interface-API
           file: ./API/Assetto-Corsa-Server-Interface-API/Assetto-Corsa-Server-Interface-API/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/assetto-corsa-server-interface:api
