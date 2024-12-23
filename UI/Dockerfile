@@ -7,6 +7,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json into the container
 COPY package.json package-lock.json ./
 
+ENV SYNCFUSION_LICENSE=${SYNCFUSION_LICENSE}
+
 # Install dependencies
 RUN npm install
 
