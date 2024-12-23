@@ -27,7 +27,6 @@ services:
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - SYNCFUSION_LICENSE=${SyncfusionLicense}
     restart: always
-    entrypoint: ["sh", "-c", "npx syncfusion-license activate && npm start"]
 
   nginx:
     image: nginx:latest
