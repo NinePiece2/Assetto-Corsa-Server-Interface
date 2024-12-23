@@ -19,5 +19,9 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Start the application
-CMD ["sh", "-c", "npx syncfusion-license activate && npm start"]
+# Copy the startup script into the container
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Use the script as the container's entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
