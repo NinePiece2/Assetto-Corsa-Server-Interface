@@ -14,19 +14,70 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Dark Mode styles */
+.e-grid .e-headercell,
+.e-grid .e-cell,
+.e-grid .e-summarycell,
+.e-grid .e-headercontent,
+.e-rowcell,
+.e-gridpager,
+.e-icons {
+    background-color: #121212 !important; /* Set background color to #121212 */
+    color: #ffffff !important; /* Set text color to white */
+}
+
+.e-pager .e-firstpagedisabled, .e-pager .e-prevpagedisabled, .e-pager .e-nextpagedisabled, .e-pager .e-lastpagedisabled {
+    opacity: 1 !important;
+}
+
+.e-pager .e-currentitem, .e-pager .e-currentitem:hover {
+    background: #4CAF50 !important;
+    color: #FFFFFF !important;
+}
+
+.e-sortfilterdiv .e-icons{
+    color: #FFFFFF !important;
+}
+/* Additional styles for Syncfusion Grid container */
+.e-grid {
+    background-color: #121212 !important; /* Set background color to #121212 */
+    border-radius: 5px; /* Add rounded corners */
+    overflow: hidden; /* Ensure overflow content is hidden within rounded corners */
+    border-radius: 15px !important; /* Add rounded corners */
+    border-width: 1.5px !important;
+}
+
+.e-gridheader {
+    overflow: hidden; /* Ensure overflow content is hidden within rounded corners */
+    border-top-width: 1.5px !important; /* Add rounded corners */
+    border-top-right-radius: 15px !important; /* Add rounded corners */
+    border-top-left-radius: 15px !important;
+}
+
+.e-pagercontainer{
+  background-color: #121212 !important;
+}
+
+.e-content{
+  background-color: var(--background) !important;
+}
+
+.e-link.e-numericitem.e-spacing.e-pager-default:hover{
+  background-color: #4CAF50 !important;
+  color: #FFFFFF !important;
+}
+
+.grid-container{
+    padding-left: 10%;
+    padding-right: 10%;
 }
