@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Assetto_Corsa_Server_Interface_API.Data;
 using dotenv.net;
+using Assetto_Corsa_Server_Interface_API.Services;
 
 namespace Assetto_Corsa_Server_Interface_API
 {
@@ -30,6 +31,7 @@ namespace Assetto_Corsa_Server_Interface_API
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddTransient<IIPService, IPService>();
 
             var app = builder.Build();
 
