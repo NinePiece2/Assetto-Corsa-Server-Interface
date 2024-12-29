@@ -29,10 +29,9 @@ export default function Home() {
           height={180}
         >
           <ColumnsDirective>
-            <ColumnDirective field="uid" isPrimaryKey={true} headerText="ID" width="100" textAlign="Right" />
-            <ColumnDirective field="name" headerText="Server Name" width="200" />
-            <ColumnDirective field="localIP" headerText="Local IP" width="150" />
-            <ColumnDirective field="httpPort" headerText="HTTP Port" width="100" textAlign="Right" />
+            <ColumnDirective field="uid" isPrimaryKey={true} headerText="ID" width="50" textAlign="Right" />
+            <ColumnDirective field="name" headerText="Server Name" width="100" />
+            <ColumnDirective field="httpPort" headerText="HTTP Port" width="50" textAlign="Right" />
           </ColumnsDirective>
           <Inject services={[Page, Sort, Filter, Group]} />
         </GridComponent>

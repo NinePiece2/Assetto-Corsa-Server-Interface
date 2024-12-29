@@ -17,7 +17,10 @@ namespace Assetto_Corsa_Server_Interface_API.Controllers
         [Route("GetServerList")]
         public IActionResult GetServerList()
         {
-            var serverList = _assettoServerDbContext.ServerList.ToList();
+            var serverList = _assettoServerDbContext.ServerList
+                                .Where(s => s.IsActive == true)
+                                .Select(s => new { s.UID, s.Name, s.HttpPort })
+                                .ToList();
 
             return Json(new { result = serverList, count = serverList.Count });
         }
