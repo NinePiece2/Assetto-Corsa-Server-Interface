@@ -13,6 +13,7 @@ namespace Assetto_Corsa_Server_Interface_API.Data
 
         public DbSet<ServerList> ServerList { get; set; }
         public DbSet<PowerSettings> PowerSettings { get; set; }
+        public DbSet<Leaderboard> leaderboard { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +25,11 @@ namespace Assetto_Corsa_Server_Interface_API.Data
             });
 
             builder.Entity<PowerSettings>(entity =>
+            {
+                entity.HasKey(e => e.UID);
+            });
+
+            builder.Entity<Leaderboard>(entity =>
             {
                 entity.HasKey(e => e.UID);
             });
