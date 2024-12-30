@@ -164,3 +164,8 @@ body {
 .e-headertext{
   font-size: 1.3em;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
