@@ -81,3 +81,76 @@ body {
     padding-left: 10%;
     padding-right: 10%;
 }
+
+.gridLink{
+    color: #4CAF50;
+}
+
+.status-online {
+  display: flex;
+  align-items: center;
+  color: #28a745; /* Green for online */
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px;
+  background-color: #e1f9e1; /* Light green background */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.status-offline {
+  display: flex;
+  align-items: center;
+  color: #dc3545; /* Red for offline */
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px;
+  background-color: #f8d7da; /* Light red background */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.status-loading {
+  font-size: 14px;
+  color: #6c757d; /* Grey for loading */
+  font-style: italic;
+  padding: 5px;
+}
+
+.status-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.status-icon-online {
+  color: #28a745; /* Green icon */
+}
+
+.status-icon-offline {
+  color: #dc3545; /* Red icon */
+}
+
+/* Add a spinning effect for the loading state */
+.status-loading::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #28a745;
+  border-top: 2px solid transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.header-link{
+  color: #4CAF50;
+}
+
+.header-link:hover{
+  color: #FFFFFF;
+}
