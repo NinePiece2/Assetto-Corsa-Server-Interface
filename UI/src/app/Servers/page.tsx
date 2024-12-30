@@ -6,6 +6,10 @@ import {
 import { DataManager, UrlAdaptor } from "@syncfusion/ej2-data";
 import React, { useState, useEffect } from 'react';
 
+interface ServerProps {
+  httpPort: number;
+}
+
 export default function Home() {
   const data = new DataManager({
     url: '/api/getServerList',
@@ -15,8 +19,8 @@ export default function Home() {
 
   const [ipAddress, setIpAddress] = useState<string>('');
   const [portStatus, setPortStatus] = useState<{ [key: string]: boolean }>({});
+  const [checkedPorts, setCheckedPorts] = useState<Set<number>>(new Set());  // Memoized set for checked ports
 
-  // Fetch IP address when the component is mounted
   useEffect(() => {
     const fetchIPData = async () => {
       try {
@@ -43,14 +47,17 @@ export default function Home() {
   };
 
   const getPortStatus = async (port: number) => {
+    if (checkedPorts.has(port)) return; // Skip if port already checked
+
+    setCheckedPorts((prev) => new Set(prev).add(port));  // Add port to checked list
+
     const status = await isPortOpen(port);
     setPortStatus((prevStatus) => ({ ...prevStatus, [port]: status }));
   };
 
-  //const pageSettings: object = { pageSize: 6 };
   const filterSettings: object = { type: 'Excel' };
 
-  const linkTemplate = (props: any) => {
+  const linkTemplate = (props: ServerProps) => {
     const url = `https://acstuff.ru/s/q:race/online/join?ip=${ipAddress}&httpPort=${props.httpPort}`;
     return (
       <a className='gridLink' href={url} target="_blank" rel="">
@@ -59,14 +66,20 @@ export default function Home() {
     );
   };
 
-  const statusTemplate = (props: any) => {
+  // Refactor statusTemplate to a functional component
+  const StatusTemplate: React.FC<ServerProps> = (props) => {
     const port = props.httpPort;
   
+    useEffect(() => {
+      if (portStatus[port] === undefined) {
+        getPortStatus(port);
+      }
+    }, [port, portStatus]);
+
     if (portStatus[port] === undefined) {
-      getPortStatus(port);
       return <span className="status-loading">Loading...</span>;
     }
-  
+
     return portStatus[port] ? (
       <span className="status-online">
         <i className="status-icon status-icon-online"></i> Online
@@ -77,7 +90,6 @@ export default function Home() {
       </span>
     );
   };
-  
 
   return (
     <>
@@ -88,9 +100,8 @@ export default function Home() {
           allowSorting={true}
           allowFiltering={true}
           allowPaging={true}
-          //pageSettings={pageSettings}
           filterSettings={filterSettings}
-          height={180}
+          height={300}
         >
           <ColumnsDirective>
             <ColumnDirective field="name" headerText="Server Name" width="100" />
@@ -98,7 +109,7 @@ export default function Home() {
               headerText="Status"
               width="50"
               textAlign="Left"
-              template={statusTemplate}
+              template={StatusTemplate}
             />
             <ColumnDirective
               headerText="Link"
@@ -111,5 +122,5 @@ export default function Home() {
         </GridComponent>
       </div>
     </>
-  )
+  );
 }

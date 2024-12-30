@@ -17,6 +17,6 @@ export default async function handler(
     const data = await response.text();
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching port status' });
+    res.status(500).json({ error: `Error fetching port status: ${error}` });
   }
 }
