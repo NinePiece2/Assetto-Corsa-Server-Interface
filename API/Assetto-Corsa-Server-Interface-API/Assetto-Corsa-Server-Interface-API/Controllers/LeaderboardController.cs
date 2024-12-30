@@ -16,8 +16,8 @@ namespace Assetto_Corsa_Server_Interface_API.Controllers
         }
 
         [HttpGet]
-        [Route("GetLeaderbaord")]
-        public IActionResult GetLeaderbaord()
+        [Route("GetLeaderboard")]
+        public IActionResult GetLeaderboard()
         {
             var leaderboardData = assettoServerDbContext.leaderboard
                                      .OrderByDescending(l => l.Score)

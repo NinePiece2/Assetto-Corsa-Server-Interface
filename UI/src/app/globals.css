@@ -8,7 +8,7 @@
 @import '../../node_modules/@syncfusion/ej2-popups/styles/material.css';
 @import '../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
 @import "../../node_modules/@syncfusion/ej2-react-grids/styles/material.css";
-
+@import "@fontsource/poppins"; 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,7 +21,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins",Arial, Helvetica, sans-serif;
 }
 
 /* Dark Mode styles */
@@ -153,4 +153,14 @@ body {
 
 .header-link:hover{
   color: #FFFFFF;
+}
+
+.grid-header{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.e-headertext{
+  font-size: 1.3em;
 }

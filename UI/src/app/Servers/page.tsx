@@ -19,7 +19,7 @@ export default function Home() {
 
   const [ipAddress, setIpAddress] = useState<string>('');
   const [portStatus, setPortStatus] = useState<{ [key: string]: boolean }>({});
-  const [checkedPorts, setCheckedPorts] = useState<Set<number>>(new Set());  // Memoized set for checked ports
+  const [checkedPorts, setCheckedPorts] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const fetchIPData = async () => {
@@ -47,9 +47,9 @@ export default function Home() {
   };
 
   const getPortStatus = async (port: number) => {
-    if (checkedPorts.has(port)) return; // Skip if port already checked
+    if (checkedPorts.has(port)) return;
 
-    setCheckedPorts((prev) => new Set(prev).add(port));  // Add port to checked list
+    setCheckedPorts((prev) => new Set(prev).add(port));
 
     const status = await isPortOpen(port);
     setPortStatus((prevStatus) => ({ ...prevStatus, [port]: status }));
@@ -66,7 +66,6 @@ export default function Home() {
     );
   };
 
-  // Refactor statusTemplate to a functional component
   const StatusTemplate: React.FC<ServerProps> = (props) => {
     const port = props.httpPort;
   
@@ -93,15 +92,15 @@ export default function Home() {
 
   return (
     <>
-      <h2>Syncfusion React Grid Component</h2>
       <div className="grid-container">
+        <h2 className="grid-header">Server List</h2>
         <GridComponent
           dataSource={data}
-          allowSorting={true}
-          allowFiltering={true}
+          allowSorting={false}
+          allowFiltering={false}
           allowPaging={true}
           filterSettings={filterSettings}
-          height={300}
+          height={"70vh"}
         >
           <ColumnsDirective>
             <ColumnDirective field="name" headerText="Server Name" width="100" />
