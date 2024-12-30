@@ -19,7 +19,7 @@ namespace Assetto_Corsa_Server_Interface_API.Controllers
         {
             var serverList = _assettoServerDbContext.ServerList
                                 .Where(s => s.IsActive == true)
-                                .Select(s => new { s.UID, s.Name, s.HttpPort })
+                                .Select(s => new { s.UID, s.Name, s.HttpPort, s.Map })
                                 .ToList();
 
             return Json(new { result = serverList, count = serverList.Count });

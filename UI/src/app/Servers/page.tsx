@@ -104,6 +104,7 @@ export default function Home() {
         >
           <ColumnsDirective>
             <ColumnDirective field="name" headerText="Server Name" width="100" />
+            <ColumnDirective field="map" headerText="Map Name" width="100" />
             <ColumnDirective
               headerText="Status"
               width="50"
