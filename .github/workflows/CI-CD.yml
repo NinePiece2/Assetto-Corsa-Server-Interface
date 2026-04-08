@@ -62,13 +62,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Pull latest Docker images
-        run: docker-compose pull
+        run: docker compose pull
 
       - name: Deploy with Docker Compose
         env:
           ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
           SyncfusionLicense: ${{ secrets.SyncfusionLicense }}
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Remove unused Docker images
         run: docker image prune -af
