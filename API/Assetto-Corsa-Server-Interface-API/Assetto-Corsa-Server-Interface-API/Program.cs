@@ -22,7 +22,7 @@ namespace Assetto_Corsa_Server_Interface_API
 
             var connectionString = builder.Configuration.GetConnectionString("AssettoServerContextConnection");
             builder.Services.AddDbContext<AssettoServerDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseNpgsql(connectionString));
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddControllers();

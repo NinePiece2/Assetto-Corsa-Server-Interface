@@ -7,6 +7,7 @@
         public string? Map { get; set; }
         public string? LocalIP { get; set; }
         public string? HttpPort { get; set; }
+        public string? TCPUDPPort { get; set; }
         public bool? IsActive { get; set; }
     }
 }
