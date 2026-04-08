@@ -21,6 +21,6 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - BASE_URL=https://api:8080
+      - BASE_URL=http://api:8080
       - NODE_TLS_REJECT_UNAUTHORIZED=0
     restart: always
