@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:18-alpine AS build
+FROM node:25-alpine AS build
 
 # Use ARG to accept the build-time variable
 ARG SYNCFUSION_LICENSE
@@ -14,7 +14,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
@@ -27,10 +27,11 @@ RUN export SYNCFUSION_LICENSE=""
 
 # Build the application
 RUN npm run build
+RUN npm prune --omit=dev 
 
 
 # Stage 2: Runtime image
-FROM node:18-alpine
+FROM node:25-alpine
 
 # Set the working directory
 WORKDIR /app

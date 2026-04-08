@@ -3,16 +3,22 @@ import {
   ColumnDirective, ColumnsDirective, GridComponent,
   Inject, Page, Sort, Filter, Group
 } from '@syncfusion/ej2-react-grids';
-import { DataManager, UrlAdaptor } from "@syncfusion/ej2-data";
+import React, { useState, useEffect } from 'react';
 
-interface LeaderboardProps {
-    date: number;
-    duration: string;
-  }
+interface LeaderboardEntry {
+  rank: number;
+  name: string;
+  date: string;
+  car: string;
+  duration: string;
+  scorePerMinute: number;
+  score: number;
+}
 
-  const formatDate = (props: LeaderboardProps) => {
+const formatDate = (props: LeaderboardEntry) => {
+  try {
     const formattedDate = new Date(props.date);
-  
+    
     const dateFormatter = new Intl.DateTimeFormat('en-GB', {
       year: 'numeric',
       month: '2-digit',
@@ -23,25 +29,55 @@ interface LeaderboardProps {
       hour12: false,
       timeZone: 'America/Toronto',
     });
-  
+    
     const formattedDateString = dateFormatter.format(formattedDate);
-    return `${formattedDateString} EST`
-  };
+    return `${formattedDateString} EST`;
+  } catch {
+    return props.date;
+  }
+};
 
-  const formatDuration = (props: LeaderboardProps) => {
+const formatDuration = (props: LeaderboardEntry) => {
+  try {
     const [hours, minutes, seconds] = props.duration.split(':').map(Number);
     const formattedMinutes = hours > 0 ? `${hours * 60 + minutes}m` : `${minutes}m`;
-    const formattedSeconds = seconds < 10 ? `${seconds}s` : `${seconds}s`;
+    const formattedSeconds = seconds < 10 ? `0${seconds}s` : `${seconds}s`;
     return `${formattedMinutes} ${formattedSeconds}`;
-  };
-  
+  } catch {
+    return props.duration;
+  }
+};
 
-export default function Home() {
-  const data = new DataManager({
-    url: '/api/getLeaderboard',
-    adaptor: new UrlAdaptor(),
-    crossDomain: false
-  });
+export default function Leaderboard() {
+  const [leaderboardData, setLeaderboardData] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/getLeaderboard');
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch leaderboard: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        
+        // Extract result array from API response
+        const entries = data.result || [];
+        setLeaderboardData(entries);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error fetching leaderboard:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
   
   const filterSettings: object = {
     type: 'Excel',
@@ -49,30 +85,46 @@ export default function Home() {
     hierarchyMode: 'Parent',
   };
 
+  if (error) {
+    return (
+      <div className="grid-container">
+        <div className="error-message">
+          <h3>Error Loading Leaderboard</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="grid-container">
         <h2 className="grid-header">Shutoko Leaderboard</h2>
-        <GridComponent
-          dataSource={data}
-          allowSorting={false}
-          allowFiltering={false}
-          allowPaging={true}
-          filterSettings={filterSettings}
-          height={"70vh"}
-        >
-          <ColumnsDirective>
-            <ColumnDirective field="rank" isPrimaryKey={true} headerText="Rank" width="50" textAlign="Left" />
-            <ColumnDirective field="name" headerText="Name" width="75" textAlign="Left" />
-            <ColumnDirective field="date" headerText="Date" width="75" textAlign="Left" template={formatDate}/>
-            <ColumnDirective field="car" headerText="Car" width="120" textAlign="Left" />
-            <ColumnDirective field="duration" headerText="Duration" width="70" textAlign="Left" template={formatDuration}/>
-            <ColumnDirective field="scorePerMinute" headerText="Score Per Minute" width="75" textAlign="Left" />
-            <ColumnDirective field="score" headerText="Score" width="75" textAlign="Left" />
-          </ColumnsDirective>
-          <Inject services={[Page, Sort, Filter, Group]} />
-        </GridComponent>
+        {loading ? (
+          <div className="loading-message">Loading leaderboard...</div>
+        ) : (
+          <GridComponent
+            dataSource={leaderboardData}
+            allowSorting={true}
+            allowFiltering={true}
+            allowPaging={true}
+            pageSettings={{ pageSize: 20 }}
+            filterSettings={filterSettings}
+            height={"70vh"}
+          >
+            <ColumnsDirective>
+              <ColumnDirective field="rank" headerText="Rank" width="75" textAlign="Center" />
+              <ColumnDirective field="name" headerText="Name" width="100" textAlign="Left" />
+              <ColumnDirective field="date" headerText="Date" width="180" textAlign="Left" template={formatDate} />
+              <ColumnDirective field="car" headerText="Car" width="120" textAlign="Left" />
+              <ColumnDirective field="duration" headerText="Duration" width="100" textAlign="Center" template={formatDuration} />
+              <ColumnDirective field="scorePerMinute" headerText="Score/Min" width="100" textAlign="Right" />
+              <ColumnDirective field="score" headerText="Score" width="100" textAlign="Right" />
+            </ColumnsDirective>
+            <Inject services={[Page, Sort, Filter, Group]} />
+          </GridComponent>
+        )}
       </div>
     </>
-  )
+  );
 }
