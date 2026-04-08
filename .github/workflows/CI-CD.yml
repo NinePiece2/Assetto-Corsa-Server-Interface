@@ -64,9 +64,6 @@ jobs:
       - name: Pull latest Docker images
         run: docker-compose pull
 
-      - name: Remove Old Continer
-        run: docker-compose down
-
       - name: Deploy with Docker Compose
         env:
           ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
